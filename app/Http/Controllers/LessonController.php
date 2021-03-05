@@ -12,7 +12,7 @@ class LessonController extends Controller
     public function index(Request $request)
     {
         $lessons = Lesson::query();
-        $chapterId = $request->query('chapterId');
+        $chapterId = $request->query('chapter_id');
 
         $lessons->when($chapterId, function ($query) use ($chapterId) {
             return $query->where('chapter_id', '=', $chapterId);
@@ -33,6 +33,11 @@ class LessonController extends Controller
                 'message' => 'lesson not found'
             ], 404);
         }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $lesson
+        ]);
     }
 
     public function create(Request $request)
@@ -112,6 +117,23 @@ class LessonController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => $lesson
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $lesson = Lesson::find($id);
+        if (!$lesson) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'chapter not found'
+            ], 404);
+        }
+
+        $lesson->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'lesson deleted'
         ]);
     }
 }
