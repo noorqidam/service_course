@@ -9,6 +9,32 @@ use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
 {
+    public function index(Request $request)
+    {
+        $lessons = Lesson::query();
+        $chapterId = $request->query('chapterId');
+
+        $lessons->when($chapterId, function ($query) use ($chapterId) {
+            return $query->where('chapter_id', '=', $chapterId);
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $lessons->get()
+        ]);
+    }
+
+    public function show($id)
+    {
+        $lesson = Lesson::find($id);
+        if (!$lesson) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'lesson not found'
+            ], 404);
+        }
+    }
+
     public function create(Request $request)
     {
         $rules = [
