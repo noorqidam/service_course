@@ -97,4 +97,21 @@ class MentorController extends Controller
             'data' => $mentor
         ]);
     }
+
+    public function delete($id)
+    {
+        $mentor = Mentor::find($id);
+
+        if (!$mentor) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'mentor not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => 'Mentor deleted'
+        ]);
+    }
 }
