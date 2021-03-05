@@ -98,7 +98,7 @@ class MentorController extends Controller
         ]);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $mentor = Mentor::find($id);
 
@@ -109,9 +109,11 @@ class MentorController extends Controller
             ], 404);
         }
 
+        $mentor->delete();
+
         return response()->json([
             'status' => 'success',
-            'data' => 'Mentor deleted'
+            'message' => 'Mentor deleted'
         ]);
     }
 }
