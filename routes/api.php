@@ -19,5 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('mentors', [MentorController::class, 'index']);
+Route::get('mentors/{id}', [MentorController::class, 'show']);
 Route::post('mentors', [MentorController::class, 'create']);
 Route::post('mentors/{id}', [MentorController::class, 'update']);
