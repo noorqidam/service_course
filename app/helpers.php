@@ -20,7 +20,7 @@ function getUser($userId)
     }
 }
 
-function getUserById($userIds = [])
+function getUserByIds($userIds = [])
 {
     $url = env('SERVICE_USER_URL') . 'users/';
 
