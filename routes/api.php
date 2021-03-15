@@ -47,3 +47,4 @@ Route::put('lessons/{id}', [LessonController::class, 'update']);
 Route::delete('lessons/{id}', [LessonController::class, 'destroy']);
 
 Route::post('image-courses', [ImageCourseController::class, 'create']);
+Route::delete('image-courses/{id}', [ImageCourseController::class, 'destroy']);
