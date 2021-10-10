@@ -9,6 +9,7 @@ use App\Models\MyCourse;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
@@ -16,11 +17,11 @@ class CourseController extends Controller
     {
         $courses = Course::query();
 
-        $q = $request->query('q');
+        $filter = $request->query('filter');
         $status = $request->query('status');
 
-        $courses->when($q, function ($query) use ($q) {
-            return $query->whereRaw("name LIKE '%" . strtolower($q) . "%'");
+        $courses->when($filter, function ($query) use ($filter) {
+            return $query->whereRaw("name LIKE '%" . strtolower($filter) . "%'");
         });
 
         $courses->when($status, function ($query) use ($status) {
@@ -86,14 +87,15 @@ class CourseController extends Controller
         ];
 
         $data = $request->all();
+        $data['slug'] = Str::slug($request->name);
 
         $validator = Validator::make($data, $rules);
 
-        if (!$validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'message' => $validator->errors()
-            ]);
+            ], 400);
         }
 
         $mentorId = $request->input('mentor_id');
@@ -116,7 +118,7 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $rules = [
-            'name' => 'string',
+            'name' => 'string|required',
             'certificate' => 'boolean',
             'thumbnail' => 'string|url',
             'type' => 'in:free,premium',
@@ -128,6 +130,7 @@ class CourseController extends Controller
         ];
 
         $data = $request->all();
+        $data['slug'] = Str::slug($request->name);
 
         $validator = Validator::make($data, $rules);
 
@@ -142,7 +145,7 @@ class CourseController extends Controller
         if (!$course) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'mentor not found'
+                'message' => 'course not found'
             ], 404);
         }
 

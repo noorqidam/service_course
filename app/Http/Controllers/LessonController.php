@@ -126,7 +126,7 @@ class LessonController extends Controller
         if (!$lesson) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'chapter not found'
+                'message' => 'lesson not found'
             ], 404);
         }
 

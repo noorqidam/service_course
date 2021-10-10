@@ -28,7 +28,7 @@ class MyCourseController extends Controller
     {
         $rules = [
             'course_id' => 'required|integer',
-            'user_id' => 'required|integer'
+            'user_id' => 'required|string'
         ];
 
         $data = $request->all();

@@ -12,7 +12,7 @@ class ReviewController extends Controller
     public function create(Request $request)
     {
         $rules = [
-            'user_id' => 'requuired|integer',
+            'user_id' => 'required|string',
             'course_id' => 'required|integer',
             'rating' => 'required|integer|min:1|max:5',
             'note' => 'string'
